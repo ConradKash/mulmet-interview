@@ -71,23 +71,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           IconButton(
                             icon: Icon(
-                              snapshot.data!.docs[index].data()['complete'] ==
-                                      true
+                              snapshot.data!.docs[index].data()['State'] == true
                                   ? Icons.check_circle
                                   : Icons.radio_button_unchecked,
                               color:
-                                  snapshot.data!.docs[index]
-                                          .data()['complete'] ==
+                                  snapshot.data!.docs[index].data()['State'] ==
                                       true
                                   ? Colors.green
                                   : Colors.grey,
                             ),
                             onPressed: () async {
                               final docId = snapshot.data!.docs[index].id;
+                              final currentState =
+                                  snapshot.data!.docs[index].data()['State'] ==
+                                  true;
                               await FirebaseFirestore.instance
                                   .collection("tasks")
                                   .doc(docId)
-                                  .update({'complete': true});
+                                  .update({'State': !currentState});
                             },
                           ),
                         ],
