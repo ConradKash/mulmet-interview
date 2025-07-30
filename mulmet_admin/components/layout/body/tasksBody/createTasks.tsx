@@ -62,7 +62,7 @@ const CreateTasks: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 space-y-6"
+      className=" mt-8 w-[25%] mx-auto bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 space-y-6"
     >
       <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
         Create Task
@@ -142,7 +142,9 @@ const CreateTasks: React.FC = () => {
         {loading ? "Creating..." : "Create Task"}
       </button>
       {error && (
-        <div className="text-red-600 dark:text-red-400 text-center">{error}</div>
+        <div className="text-red-600 dark:text-red-400 text-center">
+          {error}
+        </div>
       )}
       {success && (
         <div className="text-green-600 dark:text-green-400 text-center">

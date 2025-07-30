@@ -51,13 +51,13 @@ const ListTasks: React.FC = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col bg-gray-900 rounded-lg shadow-md p-6 mt-8">
+      <div className="w-[70%] flex flex-col bg-gray-900 rounded-lg shadow-md p-6 mt-8">
         <h2 className="text-2xl font-bold mb-4 text-gray-100">Tasks</h2>
 
         {tasks.map((task, idx) => (
           <li
             key={idx}
-            className="flex-1 py-4 px-4 flex flex-col gap-2 md:flex-row md:items-stretch md:justify-between bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg shadow hover:shadow-lg transition-all duration-200"
+            className="py-4 px-4 flex flex-col  md:flex-row md:items-stretch md:justify-between bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg shadow hover:shadow-lg transition-all duration-200"
           >
             {/* Name */}
             <div className="flex-1 flex flex-row items-center gap-6 text-gray-300 text-sm">
@@ -68,21 +68,23 @@ const ListTasks: React.FC = () => {
             {/* Status */}
             <div className="flex-1 flex flex-row items-center gap-6 text-gray-300 text-sm">
               <span className="font-semibold text-gray-400">Status:</span>{" "}
-              <span className="text-gray-200">{task.state ? "Completed" : "Pending"}</span>
+              <span className="text-gray-200">
+                {task.state ? "Completed" : "Pending"}
+              </span>
             </div>
 
             {/* Owner */}
-            <div className="flex-1 flex flex-row items-center gap-6 text-gray-300 text-sm">
+            <div className="flex-1 flex flex-row items-center gap-4 text-gray-300 text-sm">
               <span className="font-semibold text-gray-400">Date:</span>{" "}
               <span className="text-gray-200">{formatDate(task.date)}</span>
             </div>
             {/* Ownner */}
-            <div className="flex-1 text-gray-400 text-sm max-w-xl">
+            <div className="flex-1 flex flex-row items-center gap-6 text-gray-300 text-sm">
               <span className="font-semibold text-gray-400">Owner</span>{" "}
               <span className="text-gray-300">&quot;{task.owner}&quot;</span>
             </div>
             {/* Description */}
-            <div className="flex-1 text-gray-400 text-sm max-w-xl">
+            <div className="flex-1 flex flex-row items-center gap-6 text-gray-300 text-sm">
               <span className="font-semibold text-gray-400">Description:</span>{" "}
               <span className="text-gray-300">
                 &quot;{task.description}&quot;
