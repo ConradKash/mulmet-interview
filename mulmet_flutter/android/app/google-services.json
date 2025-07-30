@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "477863304191",
+    "project_id": "mulmet-5cb6b",
+    "storage_bucket": "mulmet-5cb6b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477863304191:android:e3732c20d333ab615965ca",
+        "android_client_info": {
+          "package_name": "com.example.mulmet_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPu1xvqujEjH8YEUwv5S6P8JyAbIqtdV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
