@@ -24,28 +24,37 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> createAccount(mount) async {
-    final userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        );
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
+      
+      if (userCredential.user != null) {
+        // Account created successfully
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Account created successfully!')),
+          );
 
-    if (userCredential.user != null) {
-      // Account created successfully
+          Navigator.pushReplacement(context, LoginPage.route());
+        }
+      }
+    } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Account created successfully!')),
+          SnackBar(content: Text('Error: ${e.message}')),
         );
-
-        Navigator.pushReplacement(context, LoginPage.route());
       }
-    } else {
-      // Handle account creation failure
+      return;
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to create account.')),
+          SnackBar(content: Text('An unexpected error occurred: $e')),
         );
       }
+      return;
     }
   }
 

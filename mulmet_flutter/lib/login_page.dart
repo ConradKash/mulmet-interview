@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mulmet_flutter/home_page.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
-  static MaterialPageRoute route() => MaterialPageRoute(builder: (context) => const LoginPage());
+  static MaterialPageRoute route() =>
+      MaterialPageRoute(builder: (context) => const LoginPage());
   const LoginPage({super.key});
 
   @override
@@ -19,6 +22,32 @@ class _LoginPageState extends State<LoginPage> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> login(mount) async {
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
+
+      if (userCredential.user != null) {
+        // Login successful
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Login successful!')));
+        Navigator.pushReplacement(context, MyHomePage.route());
+      }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.message}')));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An unexpected error occurred: $e')),
+      );
+    }
   }
 
   @override
@@ -49,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  login(mounted);
+                },
                 child: const Text(
                   'SIGN IN',
                   style: TextStyle(fontSize: 16, color: Colors.white),
