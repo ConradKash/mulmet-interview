@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -30,7 +31,14 @@ class _SignUpPageState extends State<SignUpPage> {
             email: emailController.text.trim(),
             password: passwordController.text.trim(),
           );
-      
+
+      // Save email to Firestore after successful account creation
+      if (userCredential.user != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({'email': emailController.text.trim()});
+      }
       if (userCredential.user != null) {
         // Account created successfully
         if (mounted) {
@@ -43,9 +51,9 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.message}')));
       }
       return;
     } catch (e) {
