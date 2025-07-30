@@ -38,8 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
               stream: FirebaseFirestore.instance
                   .collection("tasks")
                   .where(
-                    'creator',
-                    isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+                    'owner',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.email,
                   )
                   .snapshots(),
               builder: (context, snapshot) {
@@ -58,46 +58,37 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Expanded(
                             child: TaskCard(
-                              color: hexToColor(
-                                snapshot.data!.docs[index].data()['color'],
-                              ),
                               headerText: snapshot.data!.docs[index]
                                   .data()['title'],
                               descriptionText: snapshot.data!.docs[index]
                                   .data()['description'],
-                              scheduledDate: snapshot.data!.docs[index]
-                                  .data()['date']
-                                  .toString(),
+                              scheduledDate:
+                                  (snapshot.data!.docs[index].data()['date']
+                                          as Timestamp)
+                                      .toDate()
+                                      .toString(),
                             ),
                           ),
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: strengthenColor(
-                                const Color.fromRGBO(246, 222, 194, 1),
-                                0.69,
-                              ),
-                              image:
+                          IconButton(
+                            icon: Icon(
+                              snapshot.data!.docs[index].data()['complete'] ==
+                                      true
+                                  ? Icons.check_circle
+                                  : Icons.radio_button_unchecked,
+                              color:
                                   snapshot.data!.docs[index]
-                                          .data()['imageURL'] ==
-                                      null
-                                  ? null
-                                  : DecorationImage(
-                                      image: NetworkImage(
-                                        snapshot.data!.docs[index]
-                                            .data()['imageURL'],
-                                      ),
-                                    ),
-                              shape: BoxShape.circle,
+                                          .data()['complete'] ==
+                                      true
+                                  ? Colors.green
+                                  : Colors.grey,
                             ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              '10:00AM',
-                              style: TextStyle(fontSize: 17),
-                            ),
+                            onPressed: () async {
+                              final docId = snapshot.data!.docs[index].id;
+                              await FirebaseFirestore.instance
+                                  .collection("tasks")
+                                  .doc(docId)
+                                  .update({'complete': true});
+                            },
                           ),
                         ],
                       );

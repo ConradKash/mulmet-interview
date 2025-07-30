@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
-  final Color color;
   final String headerText;
   final String descriptionText;
   final String scheduledDate;
   const TaskCard({
     super.key,
-    required this.color,
     required this.headerText,
     required this.descriptionText,
     required this.scheduledDate,
@@ -19,8 +17,8 @@ class TaskCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.symmetric(vertical: 20.0).copyWith(left: 15),
       decoration: BoxDecoration(
-        color: color,
         borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: const Color.fromRGBO(246, 222, 194, 0.69),
       ),
       child: Align(
         alignment: Alignment.centerLeft,
